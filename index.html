@@ -242,6 +242,9 @@
     // Câu 1 (đúng yêu cầu của em)
     const CUTE_LINE_1 = "🥰 Anh nhận được rồi nè! Tối đó em chỉ cần xinh và cười thôi, còn lại để anh lo 💖";
 
+    // ✅ Dòng subtitle cũ (để swap qua message)
+    const SUBTITLE_LINE = "Tối đó mình sẽ có một buổi tối thật đáng nhớ nha ✨";
+
     // Apply dynamic text
     const title = document.getElementById("title");
     const subtitle = document.getElementById("subtitle");
@@ -250,8 +253,13 @@
 
     const safeName = (GIRL_NAME && GIRL_NAME.trim().length > 0) ? GIRL_NAME.trim() : "bé";
     title.textContent = `${safeName} ơi, anh cảm mơn vì em đã đồng ý nha!`;
-    subtitle.textContent = `Tối đó mình sẽ có một buổi tối thật đáng nhớ nha ✨`;
-    message.textContent = CUTE_LINE_1;
+
+    // ✅ SWAP: subtitle nhận CUTE_LINE_1
+    subtitle.textContent = CUTE_LINE_1;
+
+    // ✅ SWAP: message nhận SUBTITLE_LINE
+    message.textContent = SUBTITLE_LINE;
+
     footer.textContent = `— from anh, with love 💗`;
 
     // Hearts generator
