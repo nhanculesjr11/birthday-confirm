@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Xác nhận rồi nè 💖</title>
+  <meta name="description" content="Trang xác nhận lời mời sinh nhật siêu dễ thương 💕" />
+
+  <style>
+    :root{
+      --pink:#ff4d88;
+      --pink2:#ff7bb0;
+      --bg1:#fff0f6;
+      --bg2:#f7fbff;
+      --text:#2b2b2b;
+      --card: rgba(255,255,255,.82);
+      --shadow: 0 18px 50px rgba(255,77,136,.18);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--text);
+      overflow:hidden;
+      background:
+        radial-gradient(1000px 700px at 10% 10%, #ffe1ee 0%, transparent 55%),
+        radial-gradient(900px 600px at 90% 20%, #dff4ff 0%, transparent 55%),
+        linear-gradient(135deg, var(--bg1) 0%, var(--bg2) 100%);
+    }
+
+    /* subtle sparkles */
+    .sparkle{
+      position:absolute; inset:-50px;
+      background-image:
+        radial-gradient(circle at 20% 30%, rgba(255,77,136,.22) 0 2px, transparent 3px),
+        radial-gradient(circle at 70% 20%, rgba(255,190,210,.25) 0 2px, transparent 3px),
+        radial-gradient(circle at 40% 70%, rgba(160,220,255,.20) 0 2px, transparent 3px),
+        radial-gradient(circle at 85% 75%, rgba(255,77,136,.15) 0 2px, transparent 3px);
+      background-size: 260px 260px;
+      filter: blur(.2px);
+      opacity:.7;
+      animation: drift 18s linear infinite;
+      pointer-events:none;
+    }
+    @keyframes drift{
+      0%{transform:translate3d(0,0,0)}
+      100%{transform:translate3d(-260px,-260px,0)}
+    }
+
+    /* floating hearts layer */
+    .hearts{
+      position:absolute;
+      inset:0;
+      overflow:hidden;
+      pointer-events:none;
+    }
+    .heart{
+      position:absolute;
+      bottom:-40px;
+      width:18px;
+      height:18px;
+      background: var(--pink);
+      transform: rotate(45deg);
+      opacity:.85;
+      animation: floatUp linear infinite;
+      filter: drop-shadow(0 8px 10px rgba(255,77,136,.22));
+    }
+    .heart:before,
+    .heart:after{
+      content:"";
+      position:absolute;
+      width:18px;
+      height:18px;
+      background:inherit;
+      border-radius:50%;
+    }
+    .heart:before{ left:-9px; top:0; }
+    .heart:after{ left:0; top:-9px; }
+
+    @keyframes floatUp{
+      0% { transform:translateY(0) rotate(45deg) scale(1); opacity:0; }
+      10%{opacity:.85;}
+      100%{ transform:translateY(-120vh) rotate(45deg) scale(1.25); opacity:0; }
+    }
+
+    /* confetti */
+    canvas#confetti{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+    }
+
+    .wrap{
+      position:relative;
+      height:100%;
+      display:grid;
+      place-items:center;
+      padding:24px;
+    }
+    .card{
+      width:min(520px, 94vw);
+      background: var(--card);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,77,136,.18);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+    .top{
+      padding:18px 18px 12px;
+      background: linear-gradient(135deg, rgba(255,77,136,.12), rgba(120,210,255,.12));
+      border-bottom: 1px solid rgba(255,77,136,.10);
+    }
+    .badge{
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      padding:8px 12px;
+      border-radius:999px;
+      background: rgba(255,77,136,.10);
+      color: var(--pink);
+      font-weight:700;
+      letter-spacing:.4px;
+      font-size:12px;
+    }
+    .content{
+      padding:18px 20px 22px;
+      text-align:center;
+    }
+    h1{
+      margin:10px 0 6px;
+      font-size: clamp(22px, 3.2vw, 30px);
+      line-height:1.2;
+      color:#ff2f78;
+    }
+    p{
+      margin:10px auto 0;
+      max-width: 42ch;
+      font-size: 15px;
+      line-height:1.7;
+      color: rgba(43,43,43,.85);
+    }
+    .note{
+      margin:16px auto 0;
+      padding:14px 14px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.75);
+      border: 1px dashed rgba(255,77,136,.35);
+      text-align:left;
+      font-size: 14px;
+      line-height:1.7;
+    }
+    .note b{ color:#ff2f78; }
+    .actions{
+      margin-top: 16px;
+      display:flex;
+      gap:10px;
+      justify-content:center;
+      flex-wrap:wrap;
+    }
+    .btn{
+      appearance:none;
+      border:0;
+      cursor:pointer;
+      padding:12px 14px;
+      border-radius: 14px;
+      font-weight: 800;
+      letter-spacing:.2px;
+      transition: transform .12s ease, filter .12s ease;
+      box-shadow: 0 12px 22px rgba(255,77,136,.22);
+    }
+    .btn:active{ transform: translateY(1px) scale(.99); }
+    .primary{
+      color:white;
+      background: linear-gradient(135deg, var(--pink), var(--pink2));
+    }
+    .ghost{
+      color: var(--pink);
+      background: rgba(255,77,136,.10);
+      box-shadow:none;
+      border:1px solid rgba(255,77,136,.22);
+    }
+    .tiny{
+      margin-top: 12px;
+      font-size: 12px;
+      color: rgba(43,43,43,.55);
+    }
+
+    /* little floating icon */
+    .floating{
+      position:absolute;
+      right:14px;
+      top:14px;
+      font-size:18px;
+      animation: bob 2.8s ease-in-out infinite;
+      filter: drop-shadow(0 10px 16px rgba(255,77,136,.22));
+    }
+    @keyframes bob{
+      0%,100%{ transform: translateY(0);}
+      50%{ transform: translateY(-6px);}
+    }
+  </style>
+</head>
+
+<body>
+  <div class="sparkle" aria-hidden="true"></div>
+  <canvas id="confetti" aria-hidden="true"></canvas>
+
+  <div class="hearts" id="hearts" aria-hidden="true"></div>
+
+  <main class="wrap">
+    <section class="card" role="group" aria-label="Xác nhận">
+      <div class="top">
+        <span class="badge">✅ Xác nhận thành công <span aria-hidden="true">💌</span></span>
+        <div class="floating" aria-hidden="true">💖</div>
+      </div>
+
+      <div class="content">
+        <h1 id="title">Bé ơi, anh nhận được rồi nè!</h1>
+        <p id="subtitle">Anh “note” lại lịch liền luôn. Tối đó mình sẽ có một buổi tối thật đáng nhớ nha ✨</p>
+
+        <div class="note" id="message">
+          🥰 <b>Anh nhận được rồi nè!</b> Tối đó <b>em chỉ cần xinh và cười thôi</b>, còn lại để anh lo 💖
+        </div>
+
+        <div class="actions">
+          <button class="btn primary" id="moreHearts" type="button">Cho tim bay thêm nữa 💕</button>
+          <button class="btn ghost" id="copyMsg" type="button">Copy lời nhắn</button>
+        </div>
+
+        <div class="tiny" id="footer">— from anh, with love 💗</div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // ✅ Đổi tên bạn gái tại đây
+    const GIRL_NAME = "Tên bạn gái"; // <-- sửa chỗ này
+
+    // Câu 1 (đúng yêu cầu của em)
+    const CUTE_LINE_1 = "🥰 Anh nhận được rồi nè! Tối đó em chỉ cần xinh và cười thôi, còn lại để anh lo 💖";
+
+    // Apply dynamic text
+    const title = document.getElementById("title");
+    const subtitle = document.getElementById("subtitle");
+    const message = document.getElementById("message");
+    const footer = document.getElementById("footer");
+
+    const safeName = (GIRL_NAME && GIRL_NAME.trim().length > 0) ? GIRL_NAME.trim() : "bé";
+    title.textContent = `${safeName} ơi, anh nhận được rồi nè!`;
+    subtitle.textContent = `Anh “note” lại lịch liền luôn. Tối đó mình sẽ có một buổi tối thật đáng nhớ nha ✨`;
+    message.textContent = CUTE_LINE_1;
+    footer.textContent = `— from anh, with love 💗`;
+
+    // Hearts generator
+    const heartsWrap = document.getElementById("hearts");
+    function rand(min, max){ return Math.random() * (max - min) + min; }
+
+    function addHeart(burst=false){
+      const h = document.createElement("div");
+      h.className = "heart";
+
+      const size = burst ? rand(12, 22) : rand(10, 18);
+      h.style.width = size + "px";
+      h.style.height = size + "px";
+
+      // random x
+      h.style.left = rand(0, 100) + "vw";
+
+      // random speed
+      const duration = burst ? rand(3.2, 5.5) : rand(5.5, 9.5);
+      h.style.animationDuration = duration + "s";
+
+      // random color tint
+      const palette = ["#ff4d88", "#ff7bb0", "#ff5fa0", "#ff9ac3", "#ff3b78"];
+      h.style.background = palette[Math.floor(rand(0, palette.length))];
+
+      // random delay (mostly 0)
+      h.style.animationDelay = (burst ? rand(0, .35) : rand(0, 1.2)) + "s";
+
+      heartsWrap.appendChild(h);
+      // cleanup
+      setTimeout(() => h.remove(), (duration + 1.5) * 1000);
+    }
+
+    // initial hearts
+    for(let i=0;i<18;i++) addHeart(false);
+    setInterval(() => addHeart(false), 550);
+
+    // burst on button
+    document.getElementById("moreHearts").addEventListener("click", () => {
+      for(let i=0;i<24;i++) addHeart(true);
+      popConfetti();
+    });
+
+    // Copy message
+    document.getElementById("copyMsg").addEventListener("click", async () => {
+      try{
+        await navigator.clipboard.writeText(CUTE_LINE_1);
+        toast("Đã copy rồi nè 💖");
+      }catch(e){
+        toast("Không copy được trên trình duyệt này 🥺");
+      }
+    });
+
+    // Tiny toast
+    function toast(text){
+      const t = document.createElement("div");
+      t.textContent = text;
+      t.style.position="fixed";
+      t.style.left="50%";
+      t.style.bottom="22px";
+      t.style.transform="translateX(-50%)";
+      t.style.padding="10px 14px";
+      t.style.borderRadius="999px";
+      t.style.background="rgba(255,255,255,.9)";
+      t.style.border="1px solid rgba(255,77,136,.25)";
+      t.style.boxShadow="0 14px 30px rgba(0,0,0,.12)";
+      t.style.fontWeight="800";
+      t.style.color="#ff2f78";
+      t.style.zIndex="9999";
+      t.style.backdropFilter="blur(8px)";
+      document.body.appendChild(t);
+      setTimeout(()=>{ t.style.opacity="0"; t.style.transition="opacity .25s ease"; }, 1600);
+      setTimeout(()=>t.remove(), 2000);
+    }
+
+    // Simple confetti
+    const canvas = document.getElementById("confetti");
+    const ctx = canvas.getContext("2d");
+    let W, H, particles = [], raf;
+
+    function resize(){
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resize);
+    resize();
+
+    function popConfetti(){
+      cancelAnimationFrame(raf);
+      particles = [];
+      const count = 140;
+      const colors = ["#ff4d88","#ff7bb0","#ffd1e1","#7ad3ff","#ffe07a","#b7ffcf"];
+      for(let i=0;i<count;i++){
+        particles.push({
+          x: W/2 + rand(-40,40),
+          y: H/2 + rand(-60,20),
+          vx: rand(-5.2,5.2),
+          vy: rand(-8.5,-2.0),
+          g: rand(.12,.22),
+          r: rand(3,6),
+          a: 1,
+          rot: rand(0, Math.PI),
+          vr: rand(-.18,.18),
+          c: colors[Math.floor(rand(0, colors.length))]
+        });
+      }
+      animate();
+      setTimeout(()=>{ particles=[]; }, 1400);
+    }
+
+    function animate(){
+      ctx.clearRect(0,0,W,H);
+      for(const p of particles){
+        p.vy += p.g;
+        p.x += p.vx;
+        p.y += p.vy;
+        p.rot += p.vr;
+        p.a -= 0.012;
+        ctx.save();
+        ctx.globalAlpha = Math.max(p.a, 0);
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot);
+        ctx.fillStyle = p.c;
+        ctx.fillRect(-p.r, -p.r, p.r*2, p.r*2);
+        ctx.restore();
+      }
+      if(particles.length){
+        raf = requestAnimationFrame(animate);
+      }
+    }
+
+    // Auto confetti when open
+    setTimeout(popConfetti, 450);
+  </script>
+</body>
+</html>
